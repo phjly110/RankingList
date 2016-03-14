@@ -5,7 +5,7 @@ import scipy
 def generateLabel(X):
     Y = []
     #function y = 1*x1+2*x2+3*x3+4*x4+5*x5+6
-    theta = [1,2,3,4,5,6]
+    theta = [20,25,10,9,22,45,34,69,78,21,67,99,51,47]
     for i in X:
         Y.append(scipy.dot(theta,i)+np.random.uniform(0,0.5))
     return Y
@@ -14,11 +14,16 @@ def run():
     f = open('Data/5_features.txt' , 'w')
     #f.readline()
     # generate feature matrix X
-    X = [[i,i,i,i,i,1] for i in range(0, 1000)]
+    X = [[i,i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100)
+            ,i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100)
+            ,i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100),1]
+         for i in range(0, 20000)]
+
     #print X
+    print len(X[1])
     Y = generateLabel(X)
     #print Y
-    #print len(X)
+
     #print len(Y)
     for i in range(0,len(X)):
         #print X[i]
