@@ -11,7 +11,7 @@ def generateLabel(X):
     return Y
 
 def run():
-    f = open('Data/5_features.txt' , 'w')
+    f = open('Data/13_features.txt' , 'w')
     #f.readline()
     # generate feature matrix X
     X = [[i,i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100),i+np.random.randint(1,100)
