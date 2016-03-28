@@ -1,6 +1,7 @@
-# _*_ coding = utf-8 _*_
+# _*_ coding:utf-8 _*_
 
-from numpy import *
+import numpy as np
+from sklearn.preprocessing import scale
 import scipy
 
 def step_gradient(features_X, label_y, theta, learning_rate):
@@ -69,14 +70,23 @@ def run():
     #X,y = readData('../MLTest/data.csv')
     #X,y = readData('Data/13_features.txt')
     X,y = readData('Data/test_data.txt')
-    print X[1]
-    print y[1]
+    print X
+    #print y[1]
+    #去均值处理
+    X -= np.mean(X, axis=0)
+    y -= np.mean(y, axis=0)
+    #归一化处理
+    X /= np.std(X, axis=0)
+    y /= np.std(y, axis=0)
+
+    print X
     learning_rate = 0.01
     initial_theta = [0]*len(X[1])
+    #initial_theta = [0,1,2,3,4,5,6,7,8,9,10,11,12,12]
     #print initial_theta
     num_iterations = 5000
-    theta = GDRegression(X,y,learning_rate,initial_theta,num_iterations)
-    print theta
+    #theta = GDRegression(X,y,learning_rate,initial_theta,num_iterations)
+    #print theta
 
 
 if __name__ == '__main__':
