@@ -18,7 +18,7 @@ def run():
 
         #plt.plot(x,y,'r-',linewidth=1, label='readTread')
         line = f.readline()
-
+    f.close()
     x = [i for i in range(1,31)]
     for i in range(0,len(y_all[0])):
         one_line = [int(y_all[j][i]) for j in range(0,len(y_all))]

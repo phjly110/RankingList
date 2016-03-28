@@ -58,7 +58,7 @@ if __name__ == "__main__":
                     book_map[book] = user_set
             line = f.readline()
 
-
+        f.close()
         eachDay_arr = []      #存放一整天的书籍阅读情况list,元素对象为EachDay
 
         #为每一本书建立EachDay的对象,并加入到eachDay_arr的list中
