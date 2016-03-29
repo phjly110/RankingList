@@ -180,7 +180,7 @@ def searchInAddsub(search_date, search_bookId):
 
 def run():
     date = '2013/07/25'  #输入要搜索的日期
-    bookId = 'b0003278'   #输入要搜索的书籍
+    bookId = 'b0022681'   #输入要搜索的书籍
     map_arr = []
     dayMap1 = searchInAddsub(date,bookId)
     dayMap2 = searchInDelsub(date,bookId)
@@ -197,15 +197,16 @@ def run():
     map_arr.append(dayMap6)
 
     #dayMap = sorted(dayMap.iteritems(), key = lambda asd:asd[0],reverse = False)
-    color_arr = ['b','c','g','k','m','r','y','b','c','g']
+    color_arr = ['b','c','g','k','m','r','y','b','c','g']  #柱状图颜色
     n = 8
     X = np.arange(n) + 1
     count_Num = 0
+    #遍历6份数据的情况,并绘图
     for dayMap in map_arr:
         addSub_arr = []
         for key in dayMap:
             addSub_arr.append([int(date.split('/')[2])-int(key.split('/')[2]),len(dayMap.get(key))])
-        addSub_arr = sorted(addSub_arr,reverse=True)
+        addSub_arr = sorted(addSub_arr,reverse=True)  #根据日期从前到后排序
 
         Y = [addSub_arr[i][1] for i in range(0,len(addSub_arr))]
         plt.bar(X+0.15*count_Num,Y,width=0.15,facecolor=color_arr[count_Num],edgecolor='white')
@@ -215,6 +216,3 @@ def run():
     plt.show()
 if __name__ == '__main__':
     run()
-    #a = [[1,2],[3,4],[5,6],[7,8],[9,0]]
-    #b = [a[i][1] for i in range(0,len(a))]
-    #print b
