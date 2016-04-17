@@ -68,7 +68,8 @@ def completionFeatureList(map,list_len):     #补全特征list,当书籍出现,�
     return map
 
 def run():
-    f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SplitByDay/2013-07-07')
+    f_date = '2013-07-01'
+    f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SplitByDay/' + f_date)
     book_map = {}
     add_map = {}
     del_map = {}
@@ -82,7 +83,7 @@ def run():
     while line:
         userId,bookId,eventId,time = line.split(',')
         date,dwellTime = time.split(' ')     #由于eventID=7的时候需要用到dwellTime,而其余eventID不需要用到时间戳,注意其余的eventID分割的第二项不是dwellTime
-        if date == '2013/07/07':
+        if date == '2013/07/01':
             if eventId == '1':
                 if add_map.get(bookId):
                     user_set = add_map.get(bookId)
@@ -134,7 +135,6 @@ def run():
                     user_set.append(userId)
                     dwellTimeCount_map[bookId] = user_set
                     dwellTime_map[bookId] = dwellTime_map[bookId] + int(dwellTime)   #取出已有的阅读时长并加上这次dwellTime
-
                 else:
                     user_set = []
                     user_set.append(userId)
@@ -145,6 +145,7 @@ def run():
 
     book_arr = []
 
+    #——————————————————————增加直接得到的特征——————————————————————
     #增加add的特征
     for key in add_map:
         feature_list = []
@@ -174,15 +175,41 @@ def run():
     book_map = completionFeatureList(book_map,12)
     #增加dwellTime特征
     book_map = addDwellTimeFeatureList(book_map,dwellTime_map,12)
+    #增加dwellTime后,补全特征list的0项
+    book_map = completionFeatureList(book_map,13)
+    #------------------以下是增肌转换率类的特征————————————————————————————
+    #增加特征(阅读量/阅读人数)、（阅读时长/阅读人数）、
+    # （加入书架人数/阅读人数）、（删除书架人数/阅读人数）、
+    # （下载人数/阅读人数）
+    for key in book_map:
+        feature_list = book_map[key]
+        readCount = feature_list[10]         #阅读量
+        readPeopleNum = feature_list[11]     #阅读人数
+        readDwellTime = feature_list[12]     #阅读时长
+        addPeopleNum = feature_list[1]       #加入书架人数
+        delPeopleNum = feature_list[3]       #删除书架人数
+        downloadPeopleNum = feature_list[5]  #下载人数
+        if readPeopleNum == 0:
+            for i in range(0,5):
+                feature_list.append(0)
+        else:
+            feature_list.append(round(float(readCount)/readPeopleNum,5))
+            feature_list.append(round(float(readDwellTime)/readPeopleNum,5))
+            feature_list.append(round(float(addPeopleNum)/readPeopleNum,5))
+            feature_list.append(round(float(delPeopleNum)/readPeopleNum,5))
+            feature_list.append(round(float(downloadPeopleNum)/readPeopleNum,5))
+        book_map[key] = feature_list
 
     #将map转换为bookFeature类存储
     for key in book_map:
         feature_list = book_map[key]
+        if len(feature_list) != 18:
+            print key
         book_feature = bookFeature(key,feature_list)
         book_arr.append(book_feature)
 
     book_arr = sorted(book_arr, key = lambda asd:asd.feature_arr[0],reverse = True)
-    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/event_del2','w')
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/' + f_date +'_feature18','w')
 
     for key in book_arr:
         output.write(key.printAll())
