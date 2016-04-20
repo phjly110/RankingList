@@ -50,7 +50,7 @@ def run():
             #print read_num
     #print book_map
 
-    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/2013-07-07_01','w+')
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/TrainData/2013-07-07_01','w+')
 
     feature_line = feature_f.readline()
     max_list = [0]*feature_len          #各个特征的最大值,用作最大-最小归一化

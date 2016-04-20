@@ -68,7 +68,7 @@ def completionFeatureList(map,list_len):     #补全特征list,当书籍出现,�
     return map
 
 def run():
-    f_date = '2013-07-01'
+    f_date = '2013-07-30'
     f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SplitByDay/' + f_date)
     book_map = {}
     add_map = {}
@@ -83,7 +83,7 @@ def run():
     while line:
         userId,bookId,eventId,time = line.split(',')
         date,dwellTime = time.split(' ')     #由于eventID=7的时候需要用到dwellTime,而其余eventID不需要用到时间戳,注意其余的eventID分割的第二项不是dwellTime
-        if date == '2013/07/01':
+        if date == '2013/07/30':
             if eventId == '1':
                 if add_map.get(bookId):
                     user_set = add_map.get(bookId)
