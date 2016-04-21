@@ -31,7 +31,7 @@ def completionFeatureList(map,list_len):     #补全特征list,当书籍出现,�
 
 def mergeFeature(date, mergeDay):
     book_map = {}
-    #feature_list = []
+
 
     for j in range(mergeDay):
         day = int(date.split('-')[2])-j
@@ -46,25 +46,43 @@ def mergeFeature(date, mergeDay):
         while line:
             bookId = line.split(',')[0]
             feature_str = line.split('[')[1].split(']')[0].split(',')
-            featureadd_list = []
-            for i in range(0,len(feature_str)):
+            if j == 0:
+                featurepre_list = []
+                featureadd_list = []
+                for i in range(0,len(feature_str)):
                     featureadd_list.append(float(feature_str[i]))
+                    featurepre_list.append(float(feature_str[i]))
 
-            if book_map.get(bookId):
-                feature_list = book_map.get(bookId)
-                feature_list.extend(featureadd_list)
-                book_map[bookId] = feature_list
+                if book_map.get(bookId):
+                    print 'have same bookId in first day!'
 
+                else:
+                    feature_list = []
+                    feature_list.extend(featurepre_list)
+                    feature_list.extend(featureadd_list)
+                    book_map[bookId] = feature_list
             else:
-                feature_list = []
-                for i in range(0,18*j):          #若这本书之前没有出现在特征list中,需要补全之前的特征个数
-                    feature_list.append(0)
-                feature_list.extend(featureadd_list)
-                book_map[bookId] = feature_list
+
+                if book_map.get(bookId):
+                    feature_list = book_map.get(bookId)
+                    for i in range(18,18+len(feature_str)):
+                        feature_list[i] = float(feature_list[i])+float(feature_str[i-18])
+                    #feature_list.extend(featureadd_list)
+                    book_map[bookId] = feature_list
+                else:
+                    feature_list = []
+                    for i in range(18):
+                        feature_list.append(0)
+                    for i in range(0,len(feature_str)):
+                        feature_list.append(float(feature_str[i]))
+                    #feature_list.extend(featureadd_list)
+                    book_map[bookId] = feature_list
+
             line = f.readline()
+
         f.close()
 
-    book_map = completionFeatureList(book_map,18*mergeDay)
+    book_map = completionFeatureList(book_map,18*2)
 
     for key in book_map:
         feature_list = book_map[key]
@@ -72,6 +90,18 @@ def mergeFeature(date, mergeDay):
 
     bookFeatureArr = []
     for key in book_map:
+        feature_list = book_map[key]
+        if int(feature_list[11+18]) == 0:
+            for i in range(18+13,18+17):
+                feature_list[i] = 0
+        else:
+            feature_list[13+18] = round(float(feature_list[10+18])/feature_list[11+18],5)
+            feature_list[14+18] = round(float(feature_list[12+18])/feature_list[11+18],5)
+            feature_list[15+18] = round(float(feature_list[1+18])/feature_list[11+18],5)
+            feature_list[16+18] = round(float(feature_list[3+18])/feature_list[11+18],5)
+            feature_list[17+18] = round(float(feature_list[5+18])/feature_list[11+18],5)
+        book_map[key] = feature_list
+
         a = bookFeature(key,book_map[key])
         bookFeatureArr.append(a)
 
@@ -86,7 +116,7 @@ def mergeFeature(date, mergeDay):
     return 1
 
 def run():
-    date = '2013-07-07'
+    date = '2013-07-30'
     mergeFeature(date, 3)
 
 if __name__ == '__main__':
