@@ -1,6 +1,7 @@
 # _*_ coding:utf-8 _*_
 import scipy
 import math
+import time
 
 
 def sigmod(inX, inTheta):
@@ -8,9 +9,9 @@ def sigmod(inX, inTheta):
     return 1.0/(1 + math.exp(-t))
 
 def GDLogisticRegression(features_X, label_Y, learning_rate, initial_theta, num_iterations):
-    loss = 50
+    loss = 5000
     iters = 1
-    Eps = 0.0001
+    Eps = 2000
     while loss > Eps and iters < num_iterations:
         loss = 0
         for i in range(len(features_X)):
@@ -45,13 +46,17 @@ def readData(dataPath):
     return X,Y
 
 def run():
-    X,Y = readData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/2013-07-07_01')
+    a = time.ctime()
+    print a
+    X,Y = readData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/TrainData/2013-07-07_01')
 
     learning_rate = 0.01
     initial_theta = [0]*len(X[0])
-    num_iterations = 5000
+    num_iterations = 2000
     theta = GDLogisticRegression(X,Y,learning_rate,initial_theta,num_iterations)
     print theta
+    print a
+    print time.ctime()
 
 if __name__ == '__main__':
     run()

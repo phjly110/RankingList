@@ -157,7 +157,7 @@ def merge3Feature(date,mergeDay):
     return 1
 
 def run():
-    date = '2013-07-07'
+    date = '2013-07-08'
     merge3Feature(date,7)
 
 if __name__ == '__main__':

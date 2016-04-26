@@ -19,12 +19,12 @@ class bookFeature:
 
 def run():
     #对2013/07/07的特征进行归一化,且把阅读量大于20的书籍认为是可能出现在榜单的一个baseline
-    data = '2013-07-07_feature18'
+    data = '2013-07-07_feature'
     rank_f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/FilterByDay/AllReadSituation/2013-07-08')
-    feature_f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/'+data)
+    feature_f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/feature_3Merge/'+data)
 
     baseLine_readCount = 20     #可能进榜单的一个baseline
-    feature_len = 18
+    feature_len = 18*3
 
     rank_line = rank_f.readline()
 
@@ -68,7 +68,7 @@ def run():
     print max_list
     print min_list
 
-    feature_f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureMatrix/'+data)
+    feature_f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/feature_3Merge/'+data)
     feature_line = feature_f.readline()
 
     #对所有特征进行最大-最小归一化
