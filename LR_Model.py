@@ -8,6 +8,14 @@ def sigmod(inX, inTheta):
     t = scipy.dot(inTheta,inX)
     return 1.0/(1 + math.exp(-t))
 
+def SGDLogisticRegression(features_X, label_Y, learning_rate, initial_theta, num_iterations):
+    loss = 5000
+    iters = 1
+    Eps =  2000
+    while loss > Eps and iters < num_iterations:
+        loss = 0
+    return 1
+
 def GDLogisticRegression(features_X, label_Y, learning_rate, initial_theta, num_iterations):
     loss = 5000
     iters = 1
