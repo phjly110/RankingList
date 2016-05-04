@@ -19,7 +19,7 @@ def SGDLogisticRegression(features_X, label_Y, learning_rate, initial_theta, num
 def GDLogisticRegression(features_X, label_Y, learning_rate, initial_theta, num_iterations):
     loss = 5000
     iters = 1
-    Eps = 2000
+    Eps = 0.5
     while loss > Eps and iters < num_iterations:
         loss = 0
         for i in range(len(features_X)):
@@ -45,7 +45,7 @@ def readData(dataPath):
     Y = []
     line = f.readline()
     while line:
-        features = list(map(float,line.split('\t')[0].split(',')))
+        features = list(map(float,line.split('\t')[0].split('[')[1].split(']')[0].split(',')))
         label_y = int(line.split('\t')[1].strip())
 
         X.append(features)
@@ -56,7 +56,7 @@ def readData(dataPath):
 def run():
     a = time.ctime()
     print a
-    X,Y = readData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/TrainData/2013-07-07_01')
+    X,Y = readData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SevenDay/2013-07-08_train')
 
     learning_rate = 0.01
     initial_theta = [0]*len(X[0])
