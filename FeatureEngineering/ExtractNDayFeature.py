@@ -9,7 +9,7 @@ class bookFeature:
         self.feature_arr = feature_arr
 
     def printAll(self):
-        return ("%s %s" %(self.bookId,list(self.feature_arr)))
+        return ("%s,%s" %(self.bookId,list(self.feature_arr)))
 
     def getFeatureArr(self):
         return ("%s" %(list(self.feature_arr)))
@@ -75,14 +75,14 @@ def extractNDayFeature(path, date, n_day):
     clickCatalog_map = {}
     dwellTimeCount_map = {}
     dwellTime_map = {}
-    for i in range(n_day):
+    for i in range(1,n_day+1):
         day = int(date.split('-')[2]) - i
         print day
         if day < 10:
             date_str = date[:-2] + '0' +str(day)
         else:
             date_str = date[:-2] + str(day)
-        print date_str
+        #print date_str
         f = open(path + date_str)
         line = f.readline()
         while line:
@@ -222,10 +222,17 @@ def printDate(bookFeatures_arr,date,n_day):
 
 def run():
     path = '/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SplitByDay/'
-    date = '2013-07-30'
-    n_day = 3      #提取前几天
-    bookFeatures_arr = extractNDayFeature(path,date,n_day)
-    printDate(bookFeatures_arr,date,n_day)
+    end_date = 31
+    n_day = 7      #提取前几天
+    for i in range(n_day+1,end_date):
+        date = '2013-07-'
+        if i < 10:
+            date = date + '0' + str(i)
+        else:
+            date = date + str(i)
+        print date
+        bookFeatures_arr = extractNDayFeature(path,date,n_day)
+        printDate(bookFeatures_arr,date,n_day)
 
 if __name__ == '__main__':
     run()
