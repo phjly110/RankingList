@@ -9,7 +9,7 @@ class bookFeature:
         self.feature_arr = feature_arr
 
     def printAll(self):
-        return ("%s,%s" %(self.bookId,list(self.feature_arr)))
+        return ("%s %s" %(self.bookId,list(self.feature_arr)))
 
     def getFeatureArr(self):
         return ("%s" %(list(self.feature_arr)))
