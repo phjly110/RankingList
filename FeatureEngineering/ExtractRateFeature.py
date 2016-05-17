@@ -51,6 +51,8 @@ def returnRate(path,date,n_day):
 
     return bookUser_map
 
+#输出书本被阅读的情况
+#example:b0001046,['u026515'	1,]   书籍Id,[用户Id,阅读了几天]
 def printBookUser(bookUser_map,date):
     output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate/'+date,'w')
     for key in bookUser_map:
@@ -66,6 +68,8 @@ def printBookUser(bookUser_map,date):
         output.write('\n')
     return 'printBookUser done...'
 
+#输出了3个特征
+#example:b0031962,[56,13,0.23214]   书籍ID,[被阅读人数,n_day内反复阅读人数,返客率]
 def printBookUserRate(bookUser_map,date):
     output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate1/'+date,'w')
     for key in bookUser_map:
@@ -99,11 +103,11 @@ def run():
             date = date + str(i)
         print date
         book_map = returnRate(path,date,n_day)
-        # out1 = printBookUser(book_map,date)
-        # print out1
+        out1 = printBookUser(book_map,date)
+        print out1
         out2 = printBookUserRate(book_map,date)
         print out2
-    # return 1
+    return 1
 
 if __name__ == '__main__':
     run()
