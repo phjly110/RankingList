@@ -17,13 +17,80 @@ class bookFeature:
     def getBookId(self):
         return ("%s" %(self.bookId))
 
-def returnRate():
-    return 1
+def returnRate(path,date,n_day):
+
+    bookUser_map = {}
+    #user_dict = {}
+    for i in range(n_day,0,-1):
+        day = int(date.split('-')[2]) - i
+        print day
+        if day < 10:
+            date_str = date[:-2] + '0' +str(day)
+        else:
+            date_str = date[:-2] + str(day)
+        f = open(path + date_str)
+        line = f.readline()
+        while line:
+            bookId = line.split(',')[0]
+            user_arr = line.split('[')[1].split(']')[0].split(',')
+            if bookUser_map.get(bookId):
+                user_tempdict = bookUser_map[bookId]
+                for user in user_arr:
+                    if user_tempdict.get(user):
+                        user_tempdict[user] = user_tempdict[user] + 1
+                        #bookUser_map[bookId] = user_tempdict
+                    else:
+                        user_tempdict[user] = 1
+                    bookUser_map[bookId] = user_tempdict
+            else:
+                for user in user_arr:
+                    user_tempdict = {}
+                    user_tempdict[user] = 1
+                bookUser_map[bookId] = user_tempdict
+            line = f.readline()
+
+    return bookUser_map
+
+def printBookUser(bookUser_map,date):
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate/'+date,'w')
+    for key in bookUser_map:
+        user_dict = bookUser_map[key]
+        output.write(key)
+        output.write(',[')
+        for user in user_dict:
+            output.write(str(user))
+            output.write('\t')
+            output.write(str(user_dict[user]))
+            output.write(',')
+        output.write(']')
+        output.write('\n')
+    return 'printBookUser done...'
+
+def printBookUserRate(bookUser_map,date):
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate1/'+date,'w')
+    for key in bookUser_map:
+        user_dict = bookUser_map[key]
+        returnNum = 0
+        output.write(key)
+        output.write(',[')
+        output.write(str(len(user_dict)))
+        output.write(',')
+        for user in user_dict:
+            if user_dict[user] != 1:
+                returnNum = returnNum + 1
+        output.write(str(returnNum))
+        output.write(',')
+        return_rate = round(float(returnNum)/len(user_dict),5)
+        output.write(str(return_rate))
+        output.write(']')
+        output.write('\n')
+    return 'printBookUserRate done...'
 
 def run():
-    path = '/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/SplitByDay/'
+    path = '/Users/phj/Documents/Postgraduate/BookData/BooksPredict/FilterByDay/AllReadSituation/'
     end_date = 31
-    n_day = 7      #提取前几天
+    n_day = 3      #提取前几天
+
     for i in range(n_day+1,end_date):
         date = '2013-07-'
         if i < 10:
@@ -31,8 +98,12 @@ def run():
         else:
             date = date + str(i)
         print date
-
-    return 1
+        book_map = returnRate(path,date,n_day)
+        # out1 = printBookUser(book_map,date)
+        # print out1
+        out2 = printBookUserRate(book_map,date)
+        print out2
+    # return 1
 
 if __name__ == '__main__':
     run()
