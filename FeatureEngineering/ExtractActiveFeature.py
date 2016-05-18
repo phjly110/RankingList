@@ -55,7 +55,7 @@ def returnRate(path,date,n_day):
 #example:b0001046,['u026515'	1,]   书籍Id,[用户Id,阅读了几天]
 def printBookUser(bookUser_map,date):
     #output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate/'+date,'w')   #返客率
-    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/OldRate/'+date,'w')   #老客户率
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ActiveDegree/'+date,'w')   #老客户率
     for key in bookUser_map:
         user_dict = bookUser_map[key]
         output.write(key)
@@ -73,7 +73,7 @@ def printBookUser(bookUser_map,date):
 #example:b0031962,[56,13,0.23214]   书籍ID,[被阅读人数,n_day内反复阅读人数,返客率]
 def printBookUserRate(bookUser_map,date):
     #output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ReturnRate1/'+date,'w')  #返客率
-    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/OldRate1/'+date,'w') #老客户率
+    output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/ActiveDegree1/'+date,'w') #老客户率
     for key in bookUser_map:
         user_dict = bookUser_map[key]
         returnNum = 0
@@ -82,7 +82,7 @@ def printBookUserRate(bookUser_map,date):
         output.write(str(len(user_dict)))
         output.write(',')
         for user in user_dict:
-            if user_dict[user] != 1:
+            if user_dict[user] > 2:                 #一周内有3天看过这本书籍的情况
                 returnNum = returnNum + 1
         output.write(str(returnNum))
         output.write(',')
@@ -95,8 +95,7 @@ def printBookUserRate(bookUser_map,date):
 def run():
     path = '/Users/phj/Documents/Postgraduate/BookData/BooksPredict/FilterByDay/AllReadSituation/'
     end_date = 31
-    #n_day = 3      #提取前几天,返客率
-    n_day = 2    #老客户率
+    n_day = 7      #提取前几天
 
     for i in range(n_day+1,end_date):
         date = '2013-07-'
