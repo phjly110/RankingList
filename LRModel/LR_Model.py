@@ -11,8 +11,11 @@ def loadDate(directions):
         print m
     print trainFile_lists
     print len(trainFile_lists)
-    for i in range(len(trainFile_lists):
-        
+    intersection_list = trainFile_lists[0]
+    for i in range(1,len(trainFile_lists)):
+        tmp = list(set(intersection_list).intersection(set(trainFile_lists[i])))
+        intersection_list = tmp
+    print sorted(intersection_list)
         # for trainFile in trainFile_list[1:]:
         #     f = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/'+direction+'/'+trainFile)
         #     line = f.readline()
