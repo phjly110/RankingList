@@ -25,9 +25,9 @@ def loadDate(directions):
         m = len(trainFile_list)
         trainFile_lists.append(trainFile_list[1:])
         #print trainFile_list[1:]
-        print m
+        #print m
     print trainFile_lists
-    print len(trainFile_lists)
+    #print len(trainFile_lists)
     #找到日期的交集数据
     intersection_list = trainFile_lists[0]
     for i in range(1,len(trainFile_lists)):
@@ -38,6 +38,7 @@ def loadDate(directions):
     print directions
     #print directions[0]
     for day in intersection_list:
+        print day
         bookFeature_map = {}
         featureNum = 0
         for direction in directions:
@@ -62,18 +63,23 @@ def loadDate(directions):
                 #bookFeature(bookId,features_list)
                 line = f.readline()
             featureNum = featureNum + featureNumTmp
-        # for key in bookFeature_map:
-        #     print bookFeature_map.get(key)
-        output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine/'+day,'w')
+        #对于feature中长度不足的特征向量进行"0"补全
+        for key in bookFeature_map:
+            tmp_list = bookFeature_map.get(key)
+            for i in range(len(tmp_list),featureNum):
+                tmp_list.append(0)
+            bookFeature_map[key] = tmp_list
+        #将特征输出,方便数据的观察
+        output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine1/'+day,'w')
         for key in bookFeature_map:
             output.write(key)
             output.write(',')
             output.write('[')
             features_list = bookFeature_map.get(key)
-            for i in range(len(features_list)):
+            for i in range(len(features_list)-1):
                 output.write(str(features_list[i]))
                 output.write(',')
-            #output.write(features_list)
+            output.write(str(features_list[len(features_list)-1]))
             output.write(']')
             output.write('\n')
         output.close()
