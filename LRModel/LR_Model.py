@@ -148,12 +148,14 @@ def run():
 
     dataArray,labelArray = loadData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine1/')
     print 'loadData is Done...'
-    print len(dataArray)
-    print len(labelArray)
-    # for i in range(len(dataArray)):
-    #     for j in range(20):
-    print dataArray[10][10]
-    print labelArray[10][10]
+
+    
+    # print len(dataArray)
+    # print len(labelArray)
+    # # for i in range(len(dataArray)):
+    # #     for j in range(20):
+    # print dataArray[10][10]
+    # print labelArray[10][10]
     return 1
 
 if __name__ == '__main__':
