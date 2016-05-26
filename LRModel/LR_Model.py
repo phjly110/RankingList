@@ -1,5 +1,6 @@
 # _*_ coding:utf-8 _*_
 from os import listdir
+from numpy import *
 import scipy
 import math
 import time
@@ -21,9 +22,12 @@ class bookFeature:
     def getBookId(self):
         return ("%s" %(self.bookId))
 
-def sigmod(inX,inTheta):
-    t = scipy.dot(inTheta,inX)
-    return 1.0/(1+math.exp(-t))
+# def sigmod(inX,inTheta):
+#     t = scipy.dot(inTheta,inX)
+#     return 1.0/(1+math.exp(-t))
+
+def sigmod(inX):
+    return 1.0/(1+math.exp(-inX))
 
 #生成合并数据,为了特征组合用的函数
 def generateCombineData(directions):
@@ -139,6 +143,21 @@ def loadData(path):
     #print trainFile_list
     return dataArray,labelArray
 
+def gradAscent(dataArray, labelArray, alpha, maxCycles):
+    dataMat = mat(dataArray)
+    labelMat = mat(labelArray)
+    #labelMat = labelMat.transpose()
+    m,n = shape(dataMat)
+    #x,y = shape(labelMat)
+    print m,n
+    weight = ones((n,1))
+    #print weight
+    for i in range(maxCycles):
+        h = sigmod(dataMat*weight)
+        error = labelMat - h
+        weight = weight + alpha*dataMat.transpose()*error
+    return weight
+
 def run():
     #directions = ['Day1','Day3','Day7','ReturnRate1','OldRate1','ActiveDegree1']
     directions = ['Day1','ReturnRate1','OldRate1','ActiveDegree1']
@@ -149,7 +168,9 @@ def run():
     dataArray,labelArray = loadData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine1/')
     print 'loadData is Done...'
 
-    
+    weight = gradAscent(dataArray[0],labelArray[0],0.07,100)
+
+    print weight
     # print len(dataArray)
     # print len(labelArray)
     # # for i in range(len(dataArray)):
