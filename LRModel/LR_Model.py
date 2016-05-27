@@ -95,7 +95,12 @@ def generateCombineData(directions):
         bookRank_f.close()
 
         #将特征输出,方便数据的观察
-        output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine1/'+day,'w')
+        output = open('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine_csv/'+day+'.csv','w')
+        output.write('bookID,label')
+        for i in range(len(bookFeature_map.values()[0])):
+            output.write(',fea')
+            output.write(str(i))
+        output.write('\n')
         for key in bookFeature_map:
             output.write(key)
             output.write(',')
@@ -104,13 +109,13 @@ def generateCombineData(directions):
             else:
                 output.write(str(0))
             output.write(',')
-            output.write('[')
+            #output.write('[')
             features_list = bookFeature_map.get(key)
             for i in range(len(features_list)-1):
                 output.write(str(features_list[i]))
                 output.write(',')
             output.write(str(features_list[len(features_list)-1]))
-            output.write(']')
+            #output.write(']')
             output.write('\n')
         output.close()
     return 'generate data is OK...'
@@ -129,10 +134,11 @@ def loadData(path):
         dataDayArray = []
         labelDayArray = []
         line = f.readline()
+        line = f.readline()
         while line:
             featureArray = []
             label = line.split(',')[1]
-            feature_list = line.split('[')[1].split(']')[0].split(',')
+            feature_list = line.split(',')[2:]
             labelDayArray.append(int(label))
             for i in range(len(feature_list)):
                 featureArray.append(float(feature_list[i]))
@@ -151,7 +157,7 @@ def gradAscent(dataArray, labelArray, alpha, maxCycles):
     #x,y = shape(labelMat)
     print m,n
     weight = ones((n,1))
-    #print weight
+    print weight
     for i in range(maxCycles):
         h = sigmod(dataMat*weight)
         error = labelMat - h
@@ -162,21 +168,21 @@ def run():
     #directions = ['Day1','Day3','Day7','ReturnRate1','OldRate1','ActiveDegree1']
     directions = ['Day1','ReturnRate1','OldRate1','ActiveDegree1']
     #生成组合数据
-    #outlet_str = generateCombineData(directions)
-    #print outlet_str
+    outlet_str = generateCombineData(directions)
+    print outlet_str
 
-    dataArray,labelArray = loadData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine1/')
+    dataArray,labelArray = loadData('/Users/phj/Documents/Postgraduate/BookData/BooksPredict/OriginalData/featureEngineering/Combine_csv/')
     print 'loadData is Done...'
 
-    weight = gradAscent(dataArray[0],labelArray[0],0.07,100)
+    #weight = gradAscent(dataArray[0],labelArray[0],0.07,100)
 
-    print weight
+    #print weight
     # print len(dataArray)
     # print len(labelArray)
     # # for i in range(len(dataArray)):
     # #     for j in range(20):
-    # print dataArray[10][10]
-    # print labelArray[10][10]
+    print dataArray[10][10]
+    print labelArray[10][10]
     return 1
 
 if __name__ == '__main__':
